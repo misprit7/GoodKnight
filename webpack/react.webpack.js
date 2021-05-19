@@ -14,11 +14,19 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      },
+      {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"]
       }
     ]
   },

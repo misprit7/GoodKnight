@@ -69,6 +69,7 @@
   },
   "dependencies": {
     "react": "^16.13.1",
+    "react-chessground": "^1.5.0",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.1"
   },
