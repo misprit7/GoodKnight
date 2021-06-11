@@ -4,6 +4,7 @@ import { GlobalStyle } from './styles/GlobalStyle'
 
 import Greetings from './components/Greetings'
 import Chessboard from './components/Chessboard'
+import Viewer from './components/Viewer'
 
 const mainElement = document.createElement('div')
 mainElement.setAttribute('id', 'root')
@@ -14,7 +15,8 @@ const App = () => {
     <>
       <GlobalStyle />
       {/* <Greetings /> */}
-      <Chessboard />
+      {/* <Chessboard /> */}
+      <Viewer />
     </>
   )
 }
