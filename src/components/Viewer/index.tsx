@@ -1,14 +1,17 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ChessInstance, Square } from 'chess.js';
 import Chessground from 'react-chessground';
-import 'react-chessground/dist/styles/chessground.css';
-import { Col, Modal } from 'antd';
+import { Col, Modal, Row } from 'antd';
 
 import queen from './images/wQ.svg';
 import rook from './images/wR.svg';
 import bishop from './images/wB.svg';
 import knight from './images/wN.svg';
+
+import 'react-chessground/dist/styles/chessground.css';
+// import './chessground.css'
 
 const Chess: any = require('chess.js');
 // const Chess: ChessInstance = new ChessReq();
@@ -47,7 +50,7 @@ const Viewer: React.FC = () => {
     }
   };
 
-  const promotion = (e: 'b' | 'q' | 'n' | 'r' | 'k' | undefined) => {
+  const promotion = (e: 'b' | 'q' | 'n' | 'r' | undefined) => {
     const from = pendingMove[0];
     const to = pendingMove[1];
     chess.move({ from, to, promotion: e });
@@ -80,20 +83,22 @@ const Viewer: React.FC = () => {
 
   return (
     <div style={{ background: '#2b313c', height: '100vh' }}>
-      <Col span={6} />
-      <Col span={12} style={{ top: '10%' }}>
-        <Chessground
-          width="38vw"
-          height="38vw"
-          turnColor={turnColor()}
-          movable={calcMovable()}
-          lastMove={lastMove}
-          fen={fen}
-          onMove={onMove}
-          style={{ margin: 'auto' }}
-        />
-      </Col>
-      <Col span={6} />
+      <Row>
+        <Col span={6} />
+        <Col span={12} style={{ top: '10%' }}>
+          <Chessground
+            width="38vw"
+            height="38vw"
+            turnColor={turnColor()}
+            movable={calcMovable()}
+            lastMove={lastMove}
+            fen={fen}
+            onMove={onMove}
+            style={{ margin: 'auto' }}
+          />
+        </Col>
+        <Col span={6} />
+      </Row>
       <Modal visible={selectVisible} footer={null} closable={false}>
         <div style={{ textAlign: 'center', cursor: 'pointer' }}>
           <span role="presentation" onClick={() => promotion('q')}>
