@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ChessInstance, Square } from 'chess.js';
-import Chessground from 'react-chessground';
+import Chessground from '../Chessground-React'
 import { Col, Modal, Row } from 'antd';
 
 import queen from './images/wQ.svg';
@@ -10,8 +10,9 @@ import rook from './images/wR.svg';
 import bishop from './images/wB.svg';
 import knight from './images/wN.svg';
 
-import 'react-chessground/dist/styles/chessground.css';
-// import './chessground.css'
+
+import '../Chessground-React/assets/chessground.css'
+import '../Chessground-React/assets/theme.css'
 
 const Chess: any = require('chess.js');
 // const Chess: ChessInstance = new ChessReq();
@@ -87,8 +88,8 @@ const Viewer: React.FC = () => {
         <Col span={6} />
         <Col span={12} style={{ top: '10%' }}>
           <Chessground
-            width="38vw"
-            height="38vw"
+            width="544px"
+            height="544px"
             turnColor={turnColor()}
             movable={calcMovable()}
             lastMove={lastMove}
