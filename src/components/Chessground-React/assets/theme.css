@@ -1,7 +1,9 @@
 /*
  * Board
  */
-.cg-wrap {
+
+ /* This had to be switched from .cg-wrap because of 8px alignment */
+cg-board {
   background-image: url('images/board/blue.svg');
 }
 

@@ -1,9 +1,13 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ChessInstance, Square } from 'chess.js';
 import Chessground from '../Chessground-React'
-import { Col, Modal, Row } from 'antd';
+import { Button, Col, Modal, Row, Space } from 'antd';
+import {
+  CaretLeftOutlined, 
+  CaretRightOutlined, 
+} from '@ant-design/icons';
 
 import queen from './images/wQ.svg';
 import rook from './images/wR.svg';
@@ -17,12 +21,26 @@ import '../Chessground-React/assets/theme.css'
 const Chess: any = require('chess.js');
 // const Chess: ChessInstance = new ChessReq();
 
-const Viewer: React.FC = () => {
+var kokopu = require('kokopu');
+
+// import {Pgn} from "cm-pgn"
+
+type ViewerProps = {
+  position: any
+  nextMove: () => void
+  prevMove: () => void
+  nextEnable: boolean
+  prevEnable: boolean
+}
+
+const Viewer = (props: ViewerProps) => {
   const [chess, setChess] = useState<ChessInstance>(new Chess());
   const [selectVisible, setSelectVisible] = useState<boolean>(false);
   const [fen, setFen] = useState<string>('');
   const [lastMove, setLastMove] = useState<Square[]>(['a1', 'a1']);
   const [pendingMove, setPendingMove] = useState<Square[]>(['a1', 'a1']);
+
+
 
   const onMove = (from: Square, to: Square) => {
     const moves = chess.moves({ verbose: true });
@@ -83,23 +101,31 @@ const Viewer: React.FC = () => {
   };
 
   return (
-    <div style={{ background: '#2b313c', height: '100vh' }}>
-      <Row>
-        <Col span={6} />
-        <Col span={12} style={{ top: '10%' }}>
+    <div>
+      <Space direction="vertical" size="large">
+        <Row>
           <Chessground
-            width="544px"
-            height="544px"
-            turnColor={turnColor()}
+            width={"50vh"}
+            height={"50vh"}
+            turnColor={props.position.turn()}
             movable={calcMovable()}
             lastMove={lastMove}
-            fen={fen}
+            fen={props.position.fen()}
             onMove={onMove}
             style={{ margin: 'auto' }}
           />
-        </Col>
-        <Col span={6} />
-      </Row>
+        </Row>
+        <Row style={{textAlign: 'center'}}>
+          <Col span = {8}>
+            <Button size="large" block onClick={props.prevMove} disabled={!props.prevEnable}><CaretLeftOutlined/></Button>
+          </Col>
+          <Col span = {8}>
+          </Col>
+          <Col span = {8}>
+            <Button size="large" block onClick={props.nextMove} disabled={!props.nextEnable}><CaretRightOutlined/></Button>
+          </Col>
+        </Row>
+      </Space>
       <Modal visible={selectVisible} footer={null} closable={false}>
         <div style={{ textAlign: 'center', cursor: 'pointer' }}>
           <span role="presentation" onClick={() => promotion('q')}>

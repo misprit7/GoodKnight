@@ -72,11 +72,13 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@types/chess.js": "^0.11.0",
     "antd": "^4.16.6",
     "chess.js": "^0.11.0",
     "chessground": "^8.1.1",
     "chessjs": "0.0.1",
+    "kokopu": "git://github.com/misprit7/kokopu.git#acid_support",
     "react": "^16.13.1",
     "react-dom": "^16.14.0",
     "styled-components": "^5.3.0"
