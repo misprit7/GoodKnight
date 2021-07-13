@@ -2,7 +2,7 @@
 var kokopu = require('kokopu');
 
 
-export function compareVariations(var1: any, var2: any) {
+export function variationsEqual(var1: any, var2: any) {
   const node1 = var1.first();
   const node2 = var2.first();
   return (

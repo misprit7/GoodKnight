@@ -5,8 +5,8 @@ import { Api } from 'chessground/api';
 import { Config } from 'chessground/config';
 
 type Props = {
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
   style: any;
 };
 

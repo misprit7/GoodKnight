@@ -20,7 +20,8 @@ import Sider from 'antd/lib/layout/Sider';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
 var kokopu = require('kokopu');
-// import { pgnRead } from 'kokopu';
+
+import { variationsEqual } from './utils/KokopuHelper';
 
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
@@ -38,15 +39,15 @@ const App = () => {
 [ECO "C26"]
 [Opening "Vienna Game: Vienna Gambit"]
 
-1. e4 e5 2. Nc3 Nf6 3. f4 (3. Nf3 Nc6 4. Bb5 (4. d4 exd4 5. Nxd4)) 3... exf4 (3... d5 4. fxe5) 4. e5 Ng8 (4... Qe7 { This isn't great for black since you can just unpin yourself. } 5. Qe2 Ng8 6. Nf3) 5. Nf3 d6 (5... d5 6. d4 Bb4 7. Bxf4)  (5... Nc6 6. d4 d5 7. Bxf4) 6. d4 dxe5 7. Qe2 { Bb5 is slightly better from the computer, but leads to some insanely sharp lines that rely on some hard to find tactics which isn't really worth risking an already better position in. } 7... Be7 { Nxe5 is bad since it allows Bh4+ which can't easily be stopped. } 8. Qxe5 *`)
+1. e4 e5 2. Nc3 Nf6 3. f4 (3. Nf3 Nc6 4. Bb5 (4. d4 exd4 5. Nxd4 (5. e5 d3 6. e6 d2+ 7. Kxd2 Ne4+ 8. Kd3 Nc5+ 9. Ke2 Na4 10. Nb5 Nc3+ 11. Kd3 Ne4 12. Ke3 Nc5 13. Kd2 Ne4+ 14. Kd3)) 4... h5 5. h3) 3... exf4 (3... d5 4. fxe5) 4. e5 Ng8 (4... Qe7 { This isn't great for black since you can just unpin yourself. } 5. Qe2 Ng8 6. Nf3) 5. Nf3 d6 (5... d5 6. d4 Bb4 7. Bxf4)  (5... Nc6 6. d4 d5 7. Bxf4) 6. d4 dxe5 7. Qe2 { Bb5 is slightly better from the computer, but leads to some insanely sharp lines that rely on some hard to find tactics which isn't really worth risking an already better position in. } 7... Be7 { Nxe5 is bad since it allows Bh4+ which can't easily be stopped. } 8. Qxe5 *`)
   );
   const [curVariation, setVariation] = useState(db.game(0).mainVariation());
+  const [curGame, setCurGame] = useState(0)
   const [curNode, setCurNode] = useState(-1);
 
   const nextEnable = curNode < curVariation.nodes().length - 1;
   const prevEnable = curNode > -1;
 
-  // console.log(curVariation)
 
   const nextMove = () => {
     if (nextEnable) {
@@ -56,12 +57,15 @@ const App = () => {
 
   const prevMove = () => {
     if (prevEnable) {
-      setCurNode(curNode - 1);
+      if (curNode > 0 || variationsEqual(curVariation, db.game(curGame).mainVariation())){
+        setCurNode(curNode - 1);
+      } else {
+        console.log(curVariation)
+      }
     }
   };
 
   const moveListClick = (variation: any, node: number) => {
-    debugger;
     setVariation(variation);
     setCurNode(node);
   };
@@ -124,7 +128,7 @@ const App = () => {
               <Col span={1} />
               <Col span={7} style={{ top: '10%' }}>
                 <MoveList
-                  game={db.game(0)}
+                  game={db.game(curGame)}
                   clickCallback={moveListClick}
                   curNode={curNode}
                   curVariation={curVariation}

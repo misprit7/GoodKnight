@@ -1,9 +1,9 @@
 import { NodeCollapseOutlined } from '@ant-design/icons';
-import { Button, Col, List, Row } from 'antd';
+import { Button, Col, Divider, List, Row } from 'antd';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 import React from 'react';
 
-import { compareVariations } from '../../utils/KokopuHelper'
+import { variationsEqual } from '../../utils/KokopuHelper';
 
 var kokopu = require('kokopu');
 
@@ -19,8 +19,8 @@ type VariationProps = {
   curVariation: any;
   curNode: any;
   clickCallback: (variation: any, node: number) => void;
+  nestLevel: number
 };
-
 
 const Variation = (props: VariationProps) => {
   const rowList: JSX.Element[] = [];
@@ -33,10 +33,10 @@ const Variation = (props: VariationProps) => {
     do {
       const isPrimary =
         node == props.curNode &&
-        compareVariations(props.curVariation, props.variation);
+        variationsEqual(props.curVariation, props.variation);
       // Pretty hacky, but have to do it this way otherwise weird
       // things happen in callback
-      let temp = node
+      let temp = node;
       moveList.push(
         <Button
           key={node}
@@ -44,16 +44,19 @@ const Variation = (props: VariationProps) => {
           onClick={() => {
             props.clickCallback(props.variation, temp);
           }}
+          style={{padding: '2px'}}
         >
           {nodes[node].notation()}
         </Button>
-      )
-      ++node
-    } while (node < nodes.length && !nodes[node-1].variations().length)
-    rowList.push(<Row key={i}>{moveList}</Row>);
-    ++i
-    if (node - 1 < nodes.length && nodes[node-1].variations().length) {
-      for (const variation of nodes[node-1].variations()) {
+      );
+      ++node;
+    } while (node < nodes.length && !nodes[node - 1].variations().length);
+    rowList.push(<Row key={i} style={{marginLeft: props.nestLevel*10+'px'}}>{moveList}</Row>);
+    ++i;
+    if (node - 1 < nodes.length && nodes[node - 1].variations().length) {
+      for (const variation of nodes[node - 1].variations()) {
+        rowList.push(<Divider key={i} style={{marginTop: '6px', marginBottom: '6px'}}/>)
+        ++i
         rowList.push(
           <Row key={i}>
             <Variation
@@ -61,11 +64,14 @@ const Variation = (props: VariationProps) => {
               curVariation={props.curVariation}
               curNode={props.curNode}
               clickCallback={props.clickCallback}
+              nestLevel={props.nestLevel + 1}
             />
           </Row>
         );
         ++i
       }
+      rowList.push(<Divider key={i} style={{marginTop: '6px', marginBottom: '6px'}}/>)
+      ++i
     }
   } while (node < nodes.length);
   return <>{rowList}</>;
@@ -82,7 +88,7 @@ const MoveList = (props: MoveListProps) => {
       curNode++;
       const isPrimary =
         nodeNum == props.curNode &&
-        compareVariations(props.curVariation, props.game.mainVariation());
+        variationsEqual(props.curVariation, props.game.mainVariation());
       return (
         <Button
           block
@@ -113,6 +119,7 @@ const MoveList = (props: MoveListProps) => {
             curVariation={props.curVariation}
             curNode={props.curNode}
             clickCallback={props.clickCallback}
+            nestLevel={1}
           />
         );
       }
@@ -141,6 +148,7 @@ const MoveList = (props: MoveListProps) => {
         renderItem={(item) => {
           return item;
         }}
+        style={{height: '80vh', overflowY: 'scroll', borderStyle: 'solid'}}
       />
     </>
   );
