@@ -37,26 +37,27 @@ const Viewer = (props: ViewerProps) => {
   const [chess, setChess] = useState<ChessInstance>(new Chess());
   const [selectVisible, setSelectVisible] = useState<boolean>(false);
   const [fen, setFen] = useState<string>('');
-  const [lastMove, setLastMove] = useState<Square[]>(['a1', 'a1']);
-  const [pendingMove, setPendingMove] = useState<Square[]>(['a1', 'a1']);
+  const [lastMove, setLastMove] = useState(['a1', 'a1']);
+  const [pendingMove, setPendingMove] = useState(['a1', 'a1']);
 
 
 
-  const onMove = (from: Square, to: Square) => {
-    const moves = chess.moves({ verbose: true });
+  const onMove = (from: string, to: string) => {
+    // const moves = chess.moves({ verbose: true });
+    const moves = new kokopu.Position(fen)
     for (let i = 0, len = moves.length; i < len; i++) {
-      if (moves[i].flags.indexOf('p') !== -1 && moves[i].from === from) {
+      if (moves[i].isPromotion()) {
         setPendingMove([from, to]);
         console.log('promotion triggered')
         setSelectVisible(true);
         return;
       }
     }
-    if (chess.move({ from, to, promotion: undefined })) {
-      setFen(chess.fen());
-      setLastMove([from, to]);
-      setTimeout(randomMove, 500);
-    }
+    // if (chess.move({ from, to, promotion: undefined })) {
+    //   setFen(chess.fen());
+    //   setLastMove([from, to]);
+    //   setTimeout(randomMove, 500);
+    // }
   };
 
   const randomMove = () => {
@@ -72,7 +73,7 @@ const Viewer = (props: ViewerProps) => {
   const promotion = (e: 'b' | 'q' | 'n' | 'r' | undefined) => {
     const from = pendingMove[0];
     const to = pendingMove[1];
-    chess.move({ from, to, promotion: e });
+    // chess.move({ from, to, promotion: e });
     setFen(chess.fen());
     setLastMove([from, to]);
     setSelectVisible(false);
