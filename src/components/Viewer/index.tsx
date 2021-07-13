@@ -2,21 +2,17 @@
 import React, { useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ChessInstance, Square } from 'chess.js';
-import Chessground from '../Chessground-React'
+import Chessground from '../Chessground-React';
 import { Button, Col, Modal, Row, Space } from 'antd';
-import {
-  CaretLeftOutlined, 
-  CaretRightOutlined, 
-} from '@ant-design/icons';
+import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 
 import queen from './images/wQ.svg';
 import rook from './images/wR.svg';
 import bishop from './images/wB.svg';
 import knight from './images/wN.svg';
 
-
-import '../Chessground-React/assets/chessground.css'
-import '../Chessground-React/assets/theme.css'
+import '../Chessground-React/assets/chessground.css';
+import '../Chessground-React/assets/theme.css';
 
 const Chess: any = require('chess.js');
 // const Chess: ChessInstance = new ChessReq();
@@ -26,12 +22,12 @@ var kokopu = require('kokopu');
 // import {Pgn} from "cm-pgn"
 
 type ViewerProps = {
-  position: any
-  nextMove: () => void
-  prevMove: () => void
-  nextEnable: boolean
-  prevEnable: boolean
-}
+  position: any;
+  nextMove: () => void;
+  prevMove: () => void;
+  nextEnable: boolean;
+  prevEnable: boolean;
+};
 
 const Viewer = (props: ViewerProps) => {
   const [chess, setChess] = useState<ChessInstance>(new Chess());
@@ -40,15 +36,13 @@ const Viewer = (props: ViewerProps) => {
   const [lastMove, setLastMove] = useState(['a1', 'a1']);
   const [pendingMove, setPendingMove] = useState(['a1', 'a1']);
 
-
-
   const onMove = (from: string, to: string) => {
     // const moves = chess.moves({ verbose: true });
-    const moves = new kokopu.Position(fen)
+    const moves = new kokopu.Position(fen);
     for (let i = 0, len = moves.length; i < len; i++) {
       if (moves[i].isPromotion()) {
         setPendingMove([from, to]);
-        console.log('promotion triggered')
+        console.log('promotion triggered');
         setSelectVisible(true);
         return;
       }
@@ -106,8 +100,8 @@ const Viewer = (props: ViewerProps) => {
       <Space direction="vertical" size="large">
         <Row>
           <Chessground
-            width={"50vh"}
-            height={"50vh"}
+            width={'50vh'}
+            height={'50vh'}
             turnColor={props.position.turn()}
             movable={calcMovable()}
             lastMove={lastMove}
@@ -116,14 +110,27 @@ const Viewer = (props: ViewerProps) => {
             style={{ margin: 'auto' }}
           />
         </Row>
-        <Row style={{textAlign: 'center'}}>
-          <Col span = {8}>
-            <Button size="large" block onClick={props.prevMove} disabled={!props.prevEnable}><CaretLeftOutlined/></Button>
+        <Row style={{ textAlign: 'center' }}>
+          <Col span={8}>
+            <Button
+              size="large"
+              block
+              onClick={props.prevMove}
+              disabled={!props.prevEnable}
+            >
+              <CaretLeftOutlined />
+            </Button>
           </Col>
-          <Col span = {8}>
-          </Col>
-          <Col span = {8}>
-            <Button size="large" block onClick={props.nextMove} disabled={!props.nextEnable}><CaretRightOutlined/></Button>
+          <Col span={8}></Col>
+          <Col span={8}>
+            <Button
+              size="large"
+              block
+              onClick={props.nextMove}
+              disabled={!props.nextEnable}
+            >
+              <CaretRightOutlined />
+            </Button>
           </Col>
         </Row>
       </Space>
