@@ -41,32 +41,49 @@ const App = () => {
 
 1. e4 e5 2. Nc3 Nf6 3. f4 (3. Nf3 Nc6 4. Bb5 (4. d4 exd4 5. Nxd4 (5. e5 d3 6. e6 d2+ 7. Kxd2 Ne4+ 8. Kd3 Nc5+ 9. Ke2 Na4 10. Nb5 Nc3+ 11. Kd3 Ne4 12. Ke3 Nc5 13. Kd2 Ne4+ 14. Kd3)) 4... h5 5. h3) 3... exf4 (3... d5 4. fxe5) 4. e5 Ng8 (4... Qe7 { This isn't great for black since you can just unpin yourself. } 5. Qe2 Ng8 6. Nf3) 5. Nf3 d6 (5... d5 6. d4 Bb4 7. Bxf4)  (5... Nc6 6. d4 d5 7. Bxf4) 6. d4 dxe5 7. Qe2 { Bb5 is slightly better from the computer, but leads to some insanely sharp lines that rely on some hard to find tactics which isn't really worth risking an already better position in. } 7... Be7 { Nxe5 is bad since it allows Bh4+ which can't easily be stopped. } 8. Qxe5 *`)
   );
-  const [curVariation, setVariation] = useState(db.game(0).mainVariation());
+  const [curVariation, setCurVariation] = useState(db.game(0).mainVariation());
   const [curGame, setCurGame] = useState(0)
   const [curNode, setCurNode] = useState(-1);
 
-  const nextEnable = curNode < curVariation.nodes().length - 1;
+  const variationHasChildren = curNode >= 0 && curVariation.nodes()[curNode].variations().length > 0
+  // Whether next and backwards buttons are enabled for the user
+  const nextEnable = variationHasChildren || curNode < curVariation.nodes().length - 1;
   const prevEnable = curNode > -1;
 
 
+  // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
     if (nextEnable) {
-      setCurNode(curNode + 1);
-    }
-  };
-
-  const prevMove = () => {
-    if (prevEnable) {
-      if (curNode > 0 || variationsEqual(curVariation, db.game(curGame).mainVariation())){
-        setCurNode(curNode - 1);
+      if(!variationHasChildren){
+        setCurNode(curNode + 1);
       } else {
-        console.log(curVariation)
+        setCurVariation(curVariation.nodes()[curNode].variations()[0])
+        setCurNode(0)
       }
     }
   };
 
+  // Called every time previous button is pressed, if possible move to previous move in variation, otherwise move to last move in parent variation
+  const prevMove = () => {
+    if (prevEnable) {
+      if (curNode > 0){
+        setCurNode(curNode - 1);
+      } else {
+        let newNode = curVariation.parentNode()
+        let newVariation = newNode.parentVariation()
+        setCurVariation(newVariation)
+        // Move offset only counts after every black move, so have to make an adjustment for which side ot move it is
+        let moveOffset = newNode.fullMoveNumber() - newVariation.initialFullMoveNumber()
+        let sameColor = newNode.moveColor() == newVariation.first().moveColor()
+        setCurNode(moveOffset * 2 - (sameColor ? 0 : 1) - 1)
+        
+      }
+    }
+  };
+
+  // Triggers every time the move list is clicked, it goes to the appropriate variation
   const moveListClick = (variation: any, node: number) => {
-    setVariation(variation);
+    setCurVariation(variation);
     setCurNode(node);
   };
 
