@@ -8,7 +8,7 @@ import './components/Chessground-React/assets/theme.css';
 
 import Viewer from './components/Viewer';
 import MoveList from './components/MoveList';
-import { Col, Layout, Menu, Row } from 'antd';
+import { Col, Layout, Menu, Row, Space } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
 import {
   LaptopOutlined,
@@ -54,7 +54,7 @@ const App = () => {
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
     if (nextEnable) {
-      if(!variationHasChildren){
+      if(!variationHasChildren || curVariation.nodes().length -1 != curNode){
         setCurNode(curNode + 1);
       } else {
         setCurVariation(curVariation.nodes()[curNode].variations()[0])
@@ -127,9 +127,9 @@ const App = () => {
             </Menu>
           </Sider>
           <Content>
-            <Row>
+            <Row style={{marginTop:'10px'}}>
               <Col span={2} />
-              <Col span={12} style={{ top: '10%' }}>
+              <Col span={12}>
                 <Viewer
                   position={
                     curNode == -1
@@ -143,8 +143,8 @@ const App = () => {
                 />
               </Col>
               <Col span={1} />
-              <Col span={7} style={{ top: '10%' }}>
-                <MoveList
+              <Col span={7}>
+                <MoveList 
                   game={db.game(curGame)}
                   clickCallback={moveListClick}
                   curNode={curNode}
