@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { GlobalStyle } from './styles/GlobalStyle';
 
@@ -19,9 +19,13 @@ import {
 import Sider from 'antd/lib/layout/Sider';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
+import { Engine } from 'node-uci'
+
+
 var kokopu = require('kokopu');
 
 import { variationsEqual } from './utils/KokopuHelper';
+import EngineEval from './components/EngineEval';
 
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
@@ -50,6 +54,31 @@ const App = () => {
   const nextEnable = variationHasChildren || curNode < curVariation.nodes().length - 1;
   const prevEnable = curNode > -1;
 
+  const testFunc = async () => {
+    const enginePath = "C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe"
+    //async/await
+    const engine = new Engine(enginePath)
+    await engine.init()
+    await engine.setoption('MultiPV', '4')
+    await engine.isready()
+    console.log('engine ready', engine.id, engine.options)
+    const result = await engine.go({depth: 4})
+    console.log('result', result)
+    await engine.quit()
+  }
+
+  // useEffect(() => {testFunc()})
+  // const enginePath = "C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe"
+  //async/await
+  // const engine = new Engine(enginePath)
+  // await engine.init()
+  // await engine.setoption('MultiPV', '4')
+  // await engine.isready()
+  // console.log('engine ready', engine.id, engine.options)
+  // const result = await engine.go({depth: 4})
+  // console.log('result', result)
+  // await engine.quit()
+
 
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
@@ -66,7 +95,7 @@ const App = () => {
   // Called every time previous button is pressed, if possible move to previous move in variation, otherwise move to last move in parent variation
   const prevMove = () => {
     if (prevEnable) {
-      if (curNode > 0){
+      if (curNode > 0 || curVariation.parentNode() == undefined){
         setCurNode(curNode - 1);
       } else {
         let newNode = curVariation.parentNode()
@@ -127,7 +156,7 @@ const App = () => {
             </Menu>
           </Sider>
           <Content>
-            <Row style={{marginTop:'10px'}}>
+            <Row style={{height: '70vh', margin:'10px'}}>
               <Col span={2} />
               <Col span={12}>
                 <Viewer
@@ -143,13 +172,20 @@ const App = () => {
                 />
               </Col>
               <Col span={1} />
-              <Col span={7}>
+              <Col span={7} style={{height:'100%'}}>
                 <MoveList 
                   game={db.game(curGame)}
                   clickCallback={moveListClick}
                   curNode={curNode}
                   curVariation={curVariation}
                 />
+              </Col>
+              <Col span={2} />
+            </Row>
+            <Row style={{margin:'10px'}}>
+              <Col span={2} />
+              <Col span={20}>
+                <EngineEval />
               </Col>
               <Col span={2} />
             </Row>

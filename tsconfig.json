@@ -14,5 +14,10 @@
     "outDir": "./dist",
     "strict": true ,
     "esModuleInterop": true,
+    // https://stackoverflow.com/questions/40322788/how-to-overwrite-incorrect-typescript-type-definition-installed-via-types-packa
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types",
+    ]
   }
 }

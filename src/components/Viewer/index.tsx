@@ -96,8 +96,8 @@ const Viewer = (props: ViewerProps) => {
   };
 
   return (
-    <div style={{width: '100%'}}>
-      <Space direction="vertical" size="large" style={{width: '100%'}}>
+    <div>
+      <Space direction="vertical" size="large" style={{width: 'min(100%, 60vh)'}}>
         <Row style={{position: 'relative', width:'100%'}}>
           <Chessground
             width={'100%'}

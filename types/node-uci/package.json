@@ -1,0 +1,56 @@
+{
+  "_from": "@types/node-uci",
+  "_id": "@types/node-uci@1.3.1",
+  "_inBundle": false,
+  "_integrity": "sha512-u1jjym3l4U92OUN+pqSogCBiV5n53DBON/25IsgCLNs8h3rWIqGKAtIbY5ifl1Vw8A1IWkyOtgf1cL0XbHjZfA==",
+  "_location": "/@types/node-uci",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@types/node-uci",
+    "name": "@types/node-uci",
+    "escapedName": "@types%2fnode-uci",
+    "scope": "@types",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/node-uci/-/node-uci-1.3.1.tgz",
+  "_shasum": "512e0646b4fe498321ee26d916b50af8cd0463d5",
+  "_spec": "@types/node-uci",
+  "_where": "D:\\development\\nacbko",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Weslen Nascimento",
+      "url": "https://github.com/weslenng"
+    }
+  ],
+  "dependencies": {
+    "@types/node": "*"
+  },
+  "deprecated": false,
+  "description": "TypeScript definitions for node-uci",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node-uci",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/node-uci",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+    "directory": "types/node-uci"
+  },
+  "scripts": {},
+  "typeScriptVersion": "3.6",
+  "types": "index.d.ts",
+  "typesPublisherContentHash": "9c81be118baa10c5a7b4ac5142c7fe66773c1d98a050d1f382d677412c431b04",
+  "version": "1.3.1"
+}

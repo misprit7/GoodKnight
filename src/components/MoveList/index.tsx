@@ -141,16 +141,14 @@ const MoveList = (props: MoveListProps) => {
   }
 
   return (
-    <>
-      <List
-        itemLayout="vertical"
-        dataSource={moveList}
-        renderItem={(item) => {
-          return item;
-        }}
-        style={{height: '80vh', overflowY: 'scroll', borderStyle: 'solid'}}
-      />
-    </>
+    <List
+      itemLayout="vertical"
+      dataSource={moveList}
+      renderItem={(item) => {
+        return item;
+      }}
+      style={{height: '100%', overflowY: 'scroll', borderStyle: 'solid'}}
+    />
   );
 };
 
