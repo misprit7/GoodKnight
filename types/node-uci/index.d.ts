@@ -31,7 +31,7 @@ declare module 'node-uci' {
   export type EngineOptions = Map<
     string,
     {
-      type: string;
+      type: 'check' | 'spin' | 'combo' | 'string' | 'button';
       default: boolean | number | string;
       min?: number;
       max?: number;
