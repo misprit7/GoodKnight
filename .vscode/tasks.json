@@ -1,10 +1,11 @@
 {
   "version": "2.0.0",
   "tasks": [
+    // Taken from https://gist.github.com/drejohnson/75d3b059c6a360f40167b7b78b092abc
     {
-	    "type": "npm",
+      "type": "npm",
       "label": "electron:await",
-      "script": "electron:await", 
+      "script": "electron:await",
       "isBackground": true,
       "problemMatcher": {
         "owner": "webpack",
@@ -30,10 +31,10 @@
       }
     },
     {
-	    "type": "npm", 
+      "type": "npm",
       "label": "dev:react",
-      "script": "dev:react", 
-      "isBackground": true, 
+      "script": "dev:react",
+      "isBackground": true,
       "promptOnClose": true,
       "problemMatcher": {
         "owner": "webpack",

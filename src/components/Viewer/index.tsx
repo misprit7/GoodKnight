@@ -97,8 +97,12 @@ const Viewer = (props: ViewerProps) => {
 
   return (
     <div>
-      <Space direction="vertical" size="large" style={{width: 'min(100%, 60vh)'}}>
-        <Row style={{position: 'relative', width:'100%'}}>
+      <Space
+        direction="vertical"
+        size="large"
+        style={{ width: 'min(100%, 60vh)' }}
+      >
+        <Row style={{ position: 'relative', width: '100%' }}>
           <Chessground
             width={'100%'}
             height={'100%'}
@@ -110,7 +114,7 @@ const Viewer = (props: ViewerProps) => {
             style={{ position: 'absolute' }}
           />
           {/* <div style={{position: 'absolute', width: '100%', height: '100%'}}/> */}
-          <div style={{display: 'block', paddingBottom: '100%'}}></div>
+          <div style={{ display: 'block', paddingBottom: '100%' }}></div>
         </Row>
         <Row style={{ textAlign: 'center' }}>
           <Col span={8}>

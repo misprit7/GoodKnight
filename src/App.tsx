@@ -19,8 +19,7 @@ import {
 import Sider from 'antd/lib/layout/Sider';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
-import { Engine } from 'node-uci'
-
+import { Engine } from 'node-uci';
 
 var kokopu = require('kokopu');
 
@@ -46,26 +45,29 @@ const App = () => {
 1. e4 e5 2. Nc3 Nf6 3. f4 (3. Nf3 Nc6 4. Bb5 (4. d4 exd4 5. Nxd4 (5. e5 d3 6. e6 d2+ 7. Kxd2 Ne4+ 8. Kd3 Nc5+ 9. Ke2 Na4 10. Nb5 Nc3+ 11. Kd3 Ne4 12. Ke3 Nc5 13. Kd2 Ne4+ 14. Kd3)) 4... h5 5. h3) 3... exf4 (3... d5 4. fxe5) 4. e5 Ng8 (4... Qe7 { This isn't great for black since you can just unpin yourself. } 5. Qe2 Ng8 6. Nf3) 5. Nf3 d6 (5... d5 6. d4 Bb4 7. Bxf4)  (5... Nc6 6. d4 d5 7. Bxf4) 6. d4 dxe5 7. Qe2 { Bb5 is slightly better from the computer, but leads to some insanely sharp lines that rely on some hard to find tactics which isn't really worth risking an already better position in. } 7... Be7 { Nxe5 is bad since it allows Bh4+ which can't easily be stopped. } 8. Qxe5 *`)
   );
   const [curVariation, setCurVariation] = useState(db.game(0).mainVariation());
-  const [curGame, setCurGame] = useState(0)
+  const [curGame, setCurGame] = useState(0);
   const [curNode, setCurNode] = useState(-1);
 
-  const variationHasChildren = curNode >= 0 && curVariation.nodes()[curNode].variations().length > 0
+  const variationHasChildren =
+    curNode >= 0 && curVariation.nodes()[curNode].variations().length > 0;
   // Whether next and backwards buttons are enabled for the user
-  const nextEnable = variationHasChildren || curNode < curVariation.nodes().length - 1;
+  const nextEnable =
+    variationHasChildren || curNode < curVariation.nodes().length - 1;
   const prevEnable = curNode > -1;
 
   const testFunc = async () => {
-    const enginePath = "C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe"
+    const enginePath =
+      'C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe';
     //async/await
-    const engine = new Engine(enginePath)
-    await engine.init()
-    await engine.setoption('MultiPV', '4')
-    await engine.isready()
-    console.log('engine ready', engine.id, engine.options)
-    const result = await engine.go({depth: 4})
-    console.log('result', result)
-    await engine.quit()
-  }
+    const engine = new Engine(enginePath);
+    await engine.init();
+    await engine.setoption('MultiPV', '4');
+    await engine.isready();
+    console.log('engine ready', engine.id, engine.options);
+    const result = await engine.go({ depth: 4 });
+    console.log('result', result);
+    await engine.quit();
+  };
 
   // useEffect(() => {testFunc()})
   // const enginePath = "C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe"
@@ -79,15 +81,14 @@ const App = () => {
   // console.log('result', result)
   // await engine.quit()
 
-
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
     if (nextEnable) {
-      if(!variationHasChildren || curVariation.nodes().length -1 != curNode){
+      if (!variationHasChildren || curVariation.nodes().length - 1 != curNode) {
         setCurNode(curNode + 1);
       } else {
-        setCurVariation(curVariation.nodes()[curNode].variations()[0])
-        setCurNode(0)
+        setCurVariation(curVariation.nodes()[curNode].variations()[0]);
+        setCurNode(0);
       }
     }
   };
@@ -95,17 +96,17 @@ const App = () => {
   // Called every time previous button is pressed, if possible move to previous move in variation, otherwise move to last move in parent variation
   const prevMove = () => {
     if (prevEnable) {
-      if (curNode > 0 || curVariation.parentNode() == undefined){
+      if (curNode > 0 || curVariation.parentNode() == undefined) {
         setCurNode(curNode - 1);
       } else {
-        let newNode = curVariation.parentNode()
-        let newVariation = newNode.parentVariation()
-        setCurVariation(newVariation)
+        let newNode = curVariation.parentNode();
+        let newVariation = newNode.parentVariation();
+        setCurVariation(newVariation);
         // Move offset only counts after every black move, so have to make an adjustment for which side ot move it is
-        let moveOffset = newNode.fullMoveNumber() - newVariation.initialFullMoveNumber()
-        let sameColor = newNode.moveColor() == newVariation.first().moveColor()
-        setCurNode(moveOffset * 2 - (sameColor ? 0 : 1) - 1)
-        
+        let moveOffset =
+          newNode.fullMoveNumber() - newVariation.initialFullMoveNumber();
+        let sameColor = newNode.moveColor() == newVariation.first().moveColor();
+        setCurNode(moveOffset * 2 - (sameColor ? 0 : 1) - 1);
       }
     }
   };
@@ -156,7 +157,7 @@ const App = () => {
             </Menu>
           </Sider>
           <Content>
-            <Row style={{height: '70vh', margin:'10px'}}>
+            <Row style={{ height: '70vh', margin: '10px' }}>
               <Col span={2} />
               <Col span={12}>
                 <Viewer
@@ -172,8 +173,8 @@ const App = () => {
                 />
               </Col>
               <Col span={1} />
-              <Col span={7} style={{height:'100%'}}>
-                <MoveList 
+              <Col span={7} style={{ height: '100%' }}>
+                <MoveList
                   game={db.game(curGame)}
                   clickCallback={moveListClick}
                   curNode={curNode}
@@ -182,7 +183,7 @@ const App = () => {
               </Col>
               <Col span={2} />
             </Row>
-            <Row style={{margin:'10px'}}>
+            <Row style={{ margin: '10px' }}>
               <Col span={2} />
               <Col span={20}>
                 <EngineEval />

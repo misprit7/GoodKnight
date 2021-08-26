@@ -19,7 +19,7 @@ type VariationProps = {
   curVariation: any;
   curNode: any;
   clickCallback: (variation: any, node: number) => void;
-  nestLevel: number
+  nestLevel: number;
 };
 
 const Variation = (props: VariationProps) => {
@@ -44,19 +44,25 @@ const Variation = (props: VariationProps) => {
           onClick={() => {
             props.clickCallback(props.variation, temp);
           }}
-          style={{padding: '2px'}}
+          style={{ padding: '2px' }}
         >
           {nodes[node].notation()}
         </Button>
       );
       ++node;
     } while (node < nodes.length && !nodes[node - 1].variations().length);
-    rowList.push(<Row key={i} style={{marginLeft: props.nestLevel*10+'px'}}>{moveList}</Row>);
+    rowList.push(
+      <Row key={i} style={{ marginLeft: props.nestLevel * 10 + 'px' }}>
+        {moveList}
+      </Row>
+    );
     ++i;
     if (node - 1 < nodes.length && nodes[node - 1].variations().length) {
       for (const variation of nodes[node - 1].variations()) {
-        rowList.push(<Divider key={i} style={{marginTop: '6px', marginBottom: '6px'}}/>)
-        ++i
+        rowList.push(
+          <Divider key={i} style={{ marginTop: '6px', marginBottom: '6px' }} />
+        );
+        ++i;
         rowList.push(
           <Row key={i}>
             <Variation
@@ -68,10 +74,12 @@ const Variation = (props: VariationProps) => {
             />
           </Row>
         );
-        ++i
+        ++i;
       }
-      rowList.push(<Divider key={i} style={{marginTop: '6px', marginBottom: '6px'}}/>)
-      ++i
+      rowList.push(
+        <Divider key={i} style={{ marginTop: '6px', marginBottom: '6px' }} />
+      );
+      ++i;
     }
   } while (node < nodes.length);
   return <>{rowList}</>;
@@ -147,7 +155,7 @@ const MoveList = (props: MoveListProps) => {
       renderItem={(item) => {
         return item;
       }}
-      style={{height: '100%', overflowY: 'scroll', borderStyle: 'solid'}}
+      style={{ height: '100%', overflowY: 'scroll', borderStyle: 'solid' }}
     />
   );
 };

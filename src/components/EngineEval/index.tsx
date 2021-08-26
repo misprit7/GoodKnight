@@ -61,38 +61,46 @@ const EngineEval = () => {
     ipcRenderer.send('engine-init');
   };
 
-  
-
   const optionsEntries: JSX.Element[] = [];
 
   engineOptions.forEach((value, key, map) => {
     const formEntry: JSX.Element = (() => {
-      switch(value.type) {
-        case 'check': 
-          return (<Switch defaultChecked={value.default as boolean}/>)
+      switch (value.type) {
+        case 'check':
+          return <Switch defaultChecked={value.default as boolean} />;
         case 'spin':
-          return (<InputNumber min={value.min} max={value.max} defaultValue={value.default as number}/>)
+          return (
+            <InputNumber
+              min={value.min}
+              max={value.max}
+              defaultValue={value.default as number}
+            />
+          );
         case 'combo':
-          return (<Select defaultValue={(value.options as string[])[0]}>
-            {value.options?.map(comboOption => {
-              return (<Option value={comboOption}>{comboOption}</Option>)
-            })}
-          </Select>)
+          return (
+            <Select defaultValue={(value.options as string[])[0]}>
+              {value.options?.map((comboOption) => {
+                return <Option value={comboOption}>{comboOption}</Option>;
+              })}
+            </Select>
+          );
         case 'string':
-          return (<Input defaultValue={value.default as string}/>)
+          return <Input defaultValue={value.default as string} />;
         case 'button':
-          return (<></>)
+          return <></>;
         default:
-          return (<></>)
+          return <></>;
       }
-    })()
+    })();
     optionsEntries.push(
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item name={key} label={key}>{formEntry}
+          <Form.Item name={key} label={key}>
+            {formEntry}
           </Form.Item>
         </Col>
-      </Row>)
+      </Row>
+    );
   });
 
   return (

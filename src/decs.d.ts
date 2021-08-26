@@ -1,3 +1,3 @@
-declare module 'react-chessground'
-declare module "*.png"
-declare module "*.svg"
+declare module 'react-chessground';
+declare module '*.png';
+declare module '*.svg';
