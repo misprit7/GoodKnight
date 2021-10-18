@@ -9,7 +9,9 @@
 
 <h3 align="center">
 Chess Database and Analysis Software
-</h2>
+</h3>
 <hr>
 
-This is a hobby project of mine to try and learn more about electron, react and typescript. It's basically an attempt at a chess database manager/pgn viewer, although we'll see how far I got on it. 
+GoodKnight is an open source project that acts as a chess database manager and analysis tool. It's goal is to provide the powerful functionality of ChessBase or SCID except with a more modern and friendly user interface. 
+
+Electron is used to make the desktop application, with React being the framework used in the frontend. Almost everything is programmed in TypeScript, and [antd](https://ant.design/) is used for UI components.  
