@@ -6,7 +6,7 @@ const rootPath = path.resolve(__dirname, '..')
 module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    mainFields: ['main', 'module', 'browser']
+    mainFields: ['main', 'module', 'browser'],
   },
   entry: path.resolve(rootPath, 'src', 'App.tsx'),
   target: 'electron-renderer',
@@ -15,30 +15,34 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
-      }, 
+        use: ['file-loader'],
+      },
       {
         test: /\.less$/,
-        use: [{
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS
-        }, {
-          loader: 'less-loader', // compiles Less to CSS
-        }]
-      }
-    ]
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+          },
+          {
+            loader: 'less-loader', // compiles Less to CSS
+          },
+        ],
+      },
+    ],
   },
   devServer: {
     contentBase: path.join(rootPath, 'dist/renderer'),
@@ -47,14 +51,12 @@ module.exports = {
     hot: true,
     host: '0.0.0.0',
     port: 4000,
-    publicPath: '/'
+    publicPath: '/',
   },
   output: {
     path: path.resolve(rootPath, 'dist/renderer'),
     filename: 'js/[name].js',
-    publicPath: './'
+    publicPath: './',
   },
-  plugins: [
-    new HtmlWebpackPlugin()
-  ]
-}
+  plugins: [new HtmlWebpackPlugin()],
+};

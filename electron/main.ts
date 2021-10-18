@@ -6,15 +6,16 @@ import { Engine } from 'node-uci'
 
 let mainWindow: Electron.BrowserWindow | null
 
-ipcMain.on('engine-init', (event) => {
+let engines: Engine[] = []
+
+ipcMain.on('engine-init', (event, index) => {
 
   dialog.showOpenDialog({ properties: ['openFile'] }).then(result => {
     console.log(`Engine Initializing: ${result.filePaths[0]}`)
-    const e = new Engine(result.filePaths[0])
-    e.init().then(eng => {
+    engines[index] = new Engine(result.filePaths[0])
+    engines[index].init().then(eng => {
       console.log(`Engine Initialized, id: ${eng.id.name} author: ${eng.id.author}`)
-      console.log(eng.options)
-      event.reply('engine-init', eng.id, eng.filePath, eng.options)
+      event.reply('engine-init', index, eng.id, eng.filePath, eng.options)
     })
   })
   
@@ -44,7 +45,14 @@ function createWindow () {
     )
   }
 
-  mainWindow.on('closed', () => {
+  // mainWindow.on('show', () => {
+  //   engines.forEach(eng => {
+  //     eng.quit()
+  //   })
+  //   engines = []
+  // })
+
+  mainWindow.on('close', () => {
     mainWindow = null
   })
 }
@@ -62,3 +70,4 @@ app.on('ready', createWindow)
     }
   })
 app.allowRendererProcessReuse = true
+

@@ -48,6 +48,8 @@ const App = () => {
   const [curGame, setCurGame] = useState(0);
   const [curNode, setCurNode] = useState(-1);
 
+  const [numEngines, setNumEngines] = useState(1);
+
   const variationHasChildren =
     curNode >= 0 && curVariation.nodes()[curNode].variations().length > 0;
   // Whether next and backwards buttons are enabled for the user
@@ -186,7 +188,7 @@ const App = () => {
             <Row style={{ margin: '10px' }}>
               <Col span={2} />
               <Col span={20}>
-                <EngineEval />
+                <EngineEval index={1} />
               </Col>
               <Col span={2} />
             </Row>
