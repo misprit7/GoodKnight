@@ -2,27 +2,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Electron: Main",
-      "protocol": "inspector",
+      // "protocol": "inspector",
       "preLaunchTask": "electron:await",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
       "runtimeArgs": ["--remote-debugging-port=9223", "."],
-      "windows": {
-        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd",
-        "type": "node",
-        "request": "launch",
-        "name": "Electron: Main",
-      }
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",        //use source maps for files in workspace folder
+        "!**/node_modules/**"           //but ignore everything in the node_modules folder
+      ],
+      // "windows": {
+      //   "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd",
+        // "type": "node",
+        // "request": "launch",
+        // "name": "Electron: Main",
+      // }, 
     },
     {
       "name": "Electron: Renderer",
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "attach",
       "port": 9223,
       "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "dev:react",
+      // "preLaunchTask": "dev:react",
       "timeout": 30000
     }
   ],

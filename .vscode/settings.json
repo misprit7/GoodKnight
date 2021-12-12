@@ -1,4 +1,7 @@
 {
     "editor.tabSize": 2, 
-    "editor.insertSpaces": true, 
+    "editor.insertSpaces": true,
+    // For some reason by default you can't use breakpoints in renderer process
+    "debug.allowBreakpointsEverywhere": true,
+    
 }
