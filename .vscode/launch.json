@@ -5,7 +5,6 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Electron: Main",
-      // "protocol": "inspector",
       "preLaunchTask": "electron:await",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
       "runtimeArgs": ["--remote-debugging-port=9223", "."],
@@ -14,12 +13,6 @@
         "${workspaceFolder}/**",        //use source maps for files in workspace folder
         "!**/node_modules/**"           //but ignore everything in the node_modules folder
       ],
-      // "windows": {
-      //   "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd",
-        // "type": "node",
-        // "request": "launch",
-        // "name": "Electron: Main",
-      // }, 
     },
     {
       "name": "Electron: Renderer",
