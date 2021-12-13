@@ -43,4 +43,4 @@ Alternatively you can run the following, although you won't get any of the furth
 $ npm run start:electron
 ```
 
-3. Set breakpoints. The two debug profiles should handle both renderer and main processes, so you should be able to set breakpoints for either one. 
+3. Set breakpoints. The two debug profiles should handle both renderer and main processes, so you should be able to set breakpoints for either one. Setting this up took inspiration from [this](https://github.com/abartho/electron-typescript-vscode). 

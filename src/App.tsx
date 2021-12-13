@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { GlobalStyle } from './styles/GlobalStyle';
 
-import './App.css';
+import './App.less';
 import './components/Chessground-React/assets/chessground.css';
 import './components/Chessground-React/assets/theme.css';
+
+
+import logo from './assets/logo.png'
+
 
 import Viewer from './components/Viewer';
 import MoveList from './components/MoveList';
@@ -124,7 +128,8 @@ const App = () => {
       <GlobalStyle />
       <Layout style={{ height: '100vh' }}>
         <Header>
-          <div className="logo" />
+          {/* <div className="logo" /> */}
+          <img src={logo} style={{ height: '100%' }}/>
         </Header>
         <Layout>
           <Sider>

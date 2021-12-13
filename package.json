@@ -83,6 +83,8 @@
     "chessground": "^8.1.6",
     "chessjs": "0.0.1",
     "kokopu": "git://github.com/misprit7/kokopu.git#acid_support",
+    "less": "^4.1.2",
+    "less-loader": "^6.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.14.0",
     "styled-components": "^5.3.0"
