@@ -1,7 +1,7 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const rootPath = path.resolve(__dirname, '..')
+const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
   resolve: {
@@ -29,7 +29,29 @@ module.exports = {
         use: ['file-loader'],
       },
       {
+        // Taken from here: https://github.com/ant-design/ant-design-dark-theme/issues/8#issuecomment-807834949
+        test: /\.theme\.less$/i,
+        use: [
+          {
+            loader: 'style-loader',
+            options: { injectType: 'lazyStyleTag' },
+          },
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                // env: mode,
+                javascriptEnabled: true,
+              },
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
         test: /\.less$/,
+        exclude: /\.theme\.(less|css)$/i,
         use: [
           {
             loader: 'style-loader',
@@ -40,11 +62,13 @@ module.exports = {
           {
             loader: 'less-loader', // compiles Less to CSS
             options: {
-              lessOptions: { // If you are using less-loader@5 please spread the lessOptions to options directly
+              lessOptions: {
+                // If you are using less-loader@5 please spread the lessOptions to options directly
                 modifyVars: {
-                  'primary-color': '#1DA57A',
-                  'link-color': '#1DA57A',
-                  'border-radius-base': '2px',
+                  // 'primary-color': '#fcb03b',
+                  // 'link-color': '#fcb03b',
+                  // 'border-radius-base': '2px',
+                  // 'layout-header-background': '#fcb03b'
                 },
                 javascriptEnabled: true,
               },

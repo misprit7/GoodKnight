@@ -1,0 +1,3 @@
+# Themes
+
+To enable theming I used the third method described [here](https://github.com/ant-design/ant-design-dark-theme/issues/8#issuecomment-807834949). There are also methods involving live changing of less, but this has performance issues and means that it's much less clean to keep track of your intended modified stylesheets. The [themes](../src/themes) folder is for the themes themselves, right now just light and dark. The [theming](../src/theming) folder provides react components for enabling this theming. 
