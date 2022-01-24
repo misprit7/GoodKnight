@@ -113,7 +113,7 @@ const App = () => {
 
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
-    setThemeId('light')
+    // setThemeId('light')
     if (nextEnable) {
       if (!variationHasChildren || curVariation.nodes().length - 1 != curNode) {
         setCurNode(curNode + 1);

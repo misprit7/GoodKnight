@@ -5,7 +5,7 @@
     {
       "type": "npm",
       "label": "electron:await",
-      "script": "electron:await",
+      "script": "dev:electron",
       "isBackground": true,
       "problemMatcher": {
         "owner": "webpack",
