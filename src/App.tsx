@@ -21,8 +21,7 @@ const defaultTheme = themes[1];
 // ********************************************************** //
 // Assets
 // ********************************************************** //
-import logo from './assets/logo.png'
-
+import logo from './assets/logo.png';
 
 // ********************************************************** //
 // Components
@@ -31,7 +30,7 @@ import Viewer from './components/Viewer';
 import MoveList from './components/MoveList';
 import EngineEval from './components/EngineEval';
 
-import { Col, Layout, Menu, Row, Space } from 'antd';
+import { Card, Col, Layout, Menu, Row, Space } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
 import {
   LaptopOutlined,
@@ -44,7 +43,6 @@ import SubMenu from 'antd/lib/menu/SubMenu';
 
 // import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 
-
 // ********************************************************** //
 // Chess imports
 // ********************************************************** //
@@ -52,6 +50,9 @@ import { Engine } from 'node-uci';
 var kokopu = require('kokopu');
 import { variationsEqual } from './utils/KokopuHelper';
 
+// ********************************************************** //
+// Main app
+// ********************************************************** //
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
 document.body.appendChild(mainElement);
@@ -59,6 +60,7 @@ document.body.appendChild(mainElement);
 const App = () => {
   const [themeId, setThemeId] = useState(defaultTheme.id);
 
+  // temprorary for testing
   const [db, setDb] = useState(
     kokopu.pgnRead(`[Event "Vienna Gambit: Accepted"]
 [Site "https://lichess.org/study/zYDwcmyb/9gO091PM"]
@@ -113,7 +115,7 @@ const App = () => {
 
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
-    setThemeId('light')
+    // setThemeId('light')
     if (nextEnable) {
       if (!variationHasChildren || curVariation.nodes().length - 1 != curNode) {
         setCurNode(curNode + 1);
@@ -150,84 +152,83 @@ const App = () => {
 
   return (
     <>
-      {/* <ThemeSwitcherProvider themeMap={themes} defaultTheme="dark"> */}
-        <GlobalStyle />
-        <DynamicTheme themes={themes} value={themeId} />
-        <Layout style={{ height: '100vh' }}>
-          <Header>
-            {/* <div className="logo" /> */}
-            <img src={logo} style={{ height: '80%', top: '10%' }}/>
-          </Header>
-          <Layout>
-            <Sider>
-              <Menu
-                mode="inline"
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                style={{ height: '100%', borderRight: 0 }}
+      <DynamicTheme themes={themes} value={themeId} />
+      <Layout style={{ height: '100vh' }}>
+        <Header>
+          {/* <div className="logo" /> */}
+          <img src={logo} style={{ height: '80%', top: '10%' }} />
+        </Header>
+        <Layout>
+          <Sider>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              style={{ height: '100%', borderRight: 0 }}
+            >
+              <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
+                <Menu.Item key="1">option1</Menu.Item>
+                <Menu.Item key="2">option2</Menu.Item>
+                <Menu.Item key="3">option3</Menu.Item>
+                <Menu.Item key="4">option4</Menu.Item>
+              </SubMenu>
+              <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
+                <Menu.Item key="5">option5</Menu.Item>
+                <Menu.Item key="6">option6</Menu.Item>
+                <Menu.Item key="7">option7</Menu.Item>
+                <Menu.Item key="8">option8</Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key="sub3"
+                icon={<NotificationOutlined />}
+                title="subnav 3"
               >
-                <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-                  <Menu.Item key="1">option1</Menu.Item>
-                  <Menu.Item key="2">option2</Menu.Item>
-                  <Menu.Item key="3">option3</Menu.Item>
-                  <Menu.Item key="4">option4</Menu.Item>
-                </SubMenu>
-                <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-                  <Menu.Item key="5">option5</Menu.Item>
-                  <Menu.Item key="6">option6</Menu.Item>
-                  <Menu.Item key="7">option7</Menu.Item>
-                  <Menu.Item key="8">option8</Menu.Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub3"
-                  icon={<NotificationOutlined />}
-                  title="subnav 3"
-                >
-                  <Menu.Item key="9">option9</Menu.Item>
-                  <Menu.Item key="10">option10</Menu.Item>
-                  <Menu.Item key="11">option11</Menu.Item>
-                  <Menu.Item key="12">option12</Menu.Item>
-                </SubMenu>
-              </Menu>
-            </Sider>
-            <Content>
-              <Row style={{ height: '70vh', margin: '10px' }}>
-                <Col span={2} />
-                <Col span={12}>
-                  <Viewer
-                    position={
-                      curNode == -1
-                        ? new kokopu.Position('regular')
-                        : curVariation.nodes()[curNode].position()
-                    }
-                    nextMove={nextMove}
-                    prevMove={prevMove}
-                    nextEnable={nextEnable}
-                    prevEnable={prevEnable}
-                  />
-                </Col>
-                <Col span={1} />
-                <Col span={7} style={{ height: '100%' }}>
+                <Menu.Item key="9">option9</Menu.Item>
+                <Menu.Item key="10">option10</Menu.Item>
+                <Menu.Item key="11">option11</Menu.Item>
+                <Menu.Item key="12">option12</Menu.Item>
+              </SubMenu>
+            </Menu>
+          </Sider>
+          <Content>
+            <Row style={{ height: '70vh', margin: '10px' }}>
+              <Col span={2} />
+              <Col span={12}>
+                <Viewer
+                  position={
+                    curNode == -1
+                      ? new kokopu.Position('regular')
+                      : curVariation.nodes()[curNode].position()
+                  }
+                  nextMove={nextMove}
+                  prevMove={prevMove}
+                  nextEnable={nextEnable}
+                  prevEnable={prevEnable}
+                />
+              </Col>
+              <Col span={1} />
+              <Col span={7} style={{ height: '100%' }}>
+                <Card style={{ height: '90%' }} bodyStyle={{ height: '100%' }}>
                   <MoveList
                     game={db.game(curGame)}
                     clickCallback={moveListClick}
                     curNode={curNode}
                     curVariation={curVariation}
                   />
-                </Col>
-                <Col span={2} />
-              </Row>
-              <Row style={{ margin: '10px' }}>
-                <Col span={2} />
-                <Col span={20}>
-                  <EngineEval index={1} />
-                </Col>
-                <Col span={2} />
-              </Row>
-            </Content>
-          </Layout>
+                </Card>
+              </Col>
+              <Col span={2} />
+            </Row>
+            <Row style={{ margin: '10px' }}>
+              <Col span={2} />
+              <Col span={20}>
+                <EngineEval index={1} />
+              </Col>
+              <Col span={2} />
+            </Row>
+          </Content>
         </Layout>
-      {/* </ThemeSwitcherProvider> */}
+      </Layout>
     </>
   );
 };

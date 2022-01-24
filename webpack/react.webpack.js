@@ -63,13 +63,14 @@ module.exports = {
             loader: 'less-loader', // compiles Less to CSS
             options: {
               lessOptions: {
-                // If you are using less-loader@5 please spread the lessOptions to options directly
-                modifyVars: {
+                // This is an alternate, easier way of theming
+                // I'll leave this here just in case for testing
+                // modifyVars: {
                   // 'primary-color': '#fcb03b',
                   // 'link-color': '#fcb03b',
                   // 'border-radius-base': '2px',
                   // 'layout-header-background': '#fcb03b'
-                },
+                // },
                 javascriptEnabled: true,
               },
             },
