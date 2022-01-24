@@ -14,17 +14,29 @@ let engines: Engine[] = []
 // ********************************************************** //
 // IPC
 // ********************************************************** //
-ipcMain.on('engine-init', (event, index) => {
-
-  dialog.showOpenDialog({ properties: ['openFile'] }).then(result => {
-    console.log(`Engine Initializing: ${result.filePaths[0]}`)
-    engines[index] = new Engine(result.filePaths[0])
-    engines[index].init().then(eng => {
-      console.log(`Engine Initialized, id: ${eng.id.name} author: ${eng.id.author}`)
-      event.reply('engine-init', index, eng.id, eng.filePath, eng.options)
-    })
-  })
+ipcMain.on('engine-init', async (event, index) => {
+  const result = await dialog.showOpenDialog({ properties: ['openFile'] })
+  console.log(`Engine Initializing: ${result.filePaths[0]}`)
+  engines[index] = new Engine(result.filePaths[0])
+  const eng = await engines[index].init()
+  await engines[index].isready()
+  console.log(`Engine Initialized, id: ${eng.id.name} author: ${eng.id.author}`)
+  event.reply('engine-init', index, eng.id, eng.filePath, eng.options)
   
+})
+
+ipcMain.on('engine-new-pos', async (event, index, fen) => {
+  console.log('position updated')
+  if (engines.length <= index)
+    return
+  try{
+    await engines[index].position(fen)
+    await engines[index].isready()
+    const result = await engines[index].go({depth: 4})
+    console.log('result', result)
+  } catch {
+    console.log('Error updating position')
+  }
 })
 
 // ********************************************************** //

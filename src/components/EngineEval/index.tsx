@@ -33,7 +33,7 @@ const { ipcRenderer } = require('electron');
 // ********************************************************** //
 // Component
 // ********************************************************** //
-const EngineEval = (props: {index: number}) => {
+const EngineEval = (props: {index: number, fen: string}) => {
   const [newEngineVisible, setNewEngineVisible] = useState(false);
   const [engineId, setEngineId] = useState({
     name: undefined,
@@ -41,6 +41,9 @@ const EngineEval = (props: {index: number}) => {
   });
   const [engineFilePath, setEngineFilePath] = useState('');
   const [engineOptions, setEngineOptions] = useState<EngineOptions>(new Map());
+
+  ipcRenderer.send('engine-new-pos', props.index, props.fen)
+  console.log('init engine')
 
   // Engine selection dropdown
   const onEngineSelect = (option: string) => {
@@ -53,6 +56,7 @@ const EngineEval = (props: {index: number}) => {
     setNewEngineVisible(false);
   };
 
+  // All IPC stuff has to go here
   useEffect( () => {
     // Engine initialization event
     ipcRenderer.on('engine-init', (event, index, id, filePath, options) => {
@@ -132,7 +136,7 @@ const EngineEval = (props: {index: number}) => {
   return (
     <>
       <Card
-        title={engineId == null ? 'No Engine Selected' : 'placeholder'}
+        title={engineId == null ? 'No Engine Selected' : engineId.name}
         extra={
           <Select
             defaultValue="none"

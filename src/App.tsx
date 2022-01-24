@@ -101,18 +101,6 @@ const App = () => {
     await engine.quit();
   };
 
-  // useEffect(() => {testFunc()})
-  // const enginePath = "C:\\Users\\xander\\Downloads\\stockfish_14_win_x64_avx2\\stockfish_14_x64_avx2.exe"
-  //async/await
-  // const engine = new Engine(enginePath)
-  // await engine.init()
-  // await engine.setoption('MultiPV', '4')
-  // await engine.isready()
-  // console.log('engine ready', engine.id, engine.options)
-  // const result = await engine.go({depth: 4})
-  // console.log('result', result)
-  // await engine.quit()
-
   // Called every time next button is pressed, if possible move to next move in variation, if not go to next move in first child variation
   const nextMove = () => {
     // setThemeId('light')
@@ -222,7 +210,12 @@ const App = () => {
             <Row style={{ margin: '10px' }}>
               <Col span={2} />
               <Col span={20}>
-                <EngineEval index={1} />
+                <EngineEval index={1} fen={
+                    curNode == -1
+                      ? new kokopu.Position('regular').fen()
+                      : curVariation.nodes()[curNode].position().fen()
+                  }
+                />
               </Col>
               <Col span={2} />
             </Row>
