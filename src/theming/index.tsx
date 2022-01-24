@@ -15,12 +15,15 @@ interface DynamicThemeProps {
   value: string,
 }
 
-export default function DynamicTheme({ themes, value }: DynamicThemeProps) {
+const DynamicTheme = React.memo(({ themes, value }: DynamicThemeProps) => {
   const Component = themes.find(theme => theme.id === value)?.component;
+  if (!Component) return null
 
   return (
     <Suspense fallback={<LoadingIndicator tip="loading" />}>
       <Component />
     </Suspense>
   );
-}
+})
+
+export default DynamicTheme

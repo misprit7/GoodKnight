@@ -29,7 +29,9 @@ function createWindow () {
     minWidth: 700, 
     backgroundColor: '#191622',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableBlinkFeatures: "CSSColorSchemeUARendering",
     }
   })
 
