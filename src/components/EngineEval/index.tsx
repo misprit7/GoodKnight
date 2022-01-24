@@ -1,3 +1,6 @@
+// ********************************************************** //
+// Includes
+// ********************************************************** //
 import { FieldTimeOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -18,7 +21,7 @@ import Title from 'antd/lib/typography/Title';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { EngineOptions } from 'node-uci';
 // import { Engine } from 'node-uci';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // import { dialog, UploadFile } from 'electron';
 const electron = window.require('electron');
@@ -26,6 +29,10 @@ const remote = electron.remote;
 const { dialog } = remote;
 const { ipcRenderer } = require('electron');
 
+
+// ********************************************************** //
+// Component
+// ********************************************************** //
 const EngineEval = (props: {index: number}) => {
   const [newEngineVisible, setNewEngineVisible] = useState(false);
   const [engineId, setEngineId] = useState({
@@ -46,16 +53,18 @@ const EngineEval = (props: {index: number}) => {
     setNewEngineVisible(false);
   };
 
-  // Engine initialization event
-  ipcRenderer.on('engine-init', (event, index, id, filePath, options) => {
-    if(index == props.index){
-      setEngineId(id);
-      setEngineFilePath(filePath);
-      setEngineOptions(options);
-      console.log('id received');
-      console.log(id);
-    }
-  });
+  useEffect( () => {
+    // Engine initialization event
+    ipcRenderer.on('engine-init', (event, index, id, filePath, options) => {
+      if(index == props.index){
+        setEngineId(id);
+        setEngineFilePath(filePath);
+        setEngineOptions(options);
+        console.log('id received');
+        console.log(id, event);
+      }
+    });
+  }, [])
 
   // New engine upload triggers ipc communication to init engine
   const newEngineUpload = () => {
@@ -69,25 +78,25 @@ const EngineEval = (props: {index: number}) => {
     const formEntry: JSX.Element = (() => {
       switch (value.type) {
         case 'check':
-          return <Switch defaultChecked={value.default as boolean} />;
+          return <Switch checked={value.default as boolean} />;
         case 'spin':
           return (
             <InputNumber
               min={value.min}
               max={value.max}
-              defaultValue={value.default as number}
+              value={value.default as number}
             />
           );
         case 'combo':
           return (
-            <Select defaultValue={(value.options as string[])[0]}>
+            <Select value={(value.options as string[])[0]}>
               {value.options?.map((comboOption) => {
                 return <Option value={comboOption}>{comboOption}</Option>;
               })}
             </Select>
           );
         case 'string':
-          return <Input defaultValue={value.default as string} />;
+          return <Input value={value.default as string} />;
         case 'button':
           return <></>;
         default:

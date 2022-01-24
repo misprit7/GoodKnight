@@ -1,3 +1,6 @@
+// ********************************************************** //
+// Includes
+// ********************************************************** //
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
@@ -8,6 +11,9 @@ let mainWindow: Electron.BrowserWindow | null
 
 let engines: Engine[] = []
 
+// ********************************************************** //
+// IPC
+// ********************************************************** //
 ipcMain.on('engine-init', (event, index) => {
 
   dialog.showOpenDialog({ properties: ['openFile'] }).then(result => {
@@ -21,6 +27,9 @@ ipcMain.on('engine-init', (event, index) => {
   
 })
 
+// ********************************************************** //
+// Initialization
+// ********************************************************** //
 function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1100,
